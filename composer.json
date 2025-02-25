@@ -1,5 +1,5 @@
 {
-    "name": "restruct/silverstripe-simpler",
+    "name": "daledezmat/silverstripe-simpler",
     "type": "silverstripe-vendormodule",
     "description": "Tries to make Silverstripe development a bit simpler by naively re-introducting some 'common sense'/old-fashioned/SS3 basics like global Bootstrap & jQuery and a modal",
     "keywords": [
@@ -9,7 +9,7 @@
     "license": "MIT",
     "authors": [ { "name": "Restruct", "email": "dev@restruct.nl", "homepage": "https://restruct.nl" } ],
     "require": {
-        "silverstripe/framework": "^4"
+        "silverstripe/framework": "^5"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +20,11 @@
         "expose": [
             "client/dist"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true
+        }
     }
 }
