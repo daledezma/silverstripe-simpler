@@ -112,3 +112,5 @@ document.onreadystatechange = function () { // https://developer.mozilla.org/en-
 //         }
 //     }
 // });
+
+window.simpler = simpler;
