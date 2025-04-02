@@ -1,5 +1,5 @@
 {
-    "name": "daledezmat/silverstripe-simpler",
+    "name": "daledezma/silverstripe-simpler",
     "type": "silverstripe-vendormodule",
     "description": "Tries to make Silverstripe development a bit simpler by naively re-introducting some 'common sense'/old-fashioned/SS3 basics like global Bootstrap & jQuery and a modal",
     "keywords": [
