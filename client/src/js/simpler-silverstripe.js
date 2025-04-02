@@ -52,29 +52,57 @@ window.simpler = {
 //
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Bootstrap Modal (Vue rendered): to test opening a simple modal, paste into console: simpler.modal.show = true;
-    var simpleModal = new Vue({
-        el: '#simplerAdminModal',
-        data: simpler.modal,
-        watch: {
-            // make modal open/closable by changing data value
-            show: function (val) {
-                $('#simplerAdminModal').modal(val ? 'show' : 'hide');
-            },
-            bodyHtml: function (val) {
-                //$('#simpleAdminModalBody').html(val);
-                $('#simplerAdminModal').modal('handleUpdate');
-                //$('#simpleAdminModalBody select').trigger('onadd onload onmatch'); // doesn't work
+    // Inject modal into DOM manually
+    if (!document.querySelector('#simplerAdminModal')) {
+        document.body.insertAdjacentHTML('beforeend', `
+            <div id="simplerAdminModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">{{ title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="simpler.modal.show = false">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" id="simpleAdminModalBody" v-html="bodyHtml"></div>
+                  <div class="modal-footer">
+                    <button v-if="closeBtn" type="button" class="btn btn-secondary" data-dismiss="modal">{{ closeTxt }}</button>
+                    <button v-if="saveBtn" type="button" class="btn btn-primary">{{ saveTxt }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        `);
+    }
+
+    // Prevents double Vue instance
+    if (!document.querySelector('#simplerAdminModal').__vue__) {
+        new Vue({
+            el: '#simplerAdminModal',
+            data: simpler.modal,
+            watch: {
+                show: function (val) {
+                    $('#simplerAdminModal').modal(val ? 'show' : 'hide');
+                    if (!val) {
+                        document.body.style.overflow = 'auto'; // Unlock scroll on close
+                    }
+                },
+                bodyHtml: function () {
+                    $('#simplerAdminModal').modal('handleUpdate');
+                }
             }
-        }
-    });
-    $('#simplerAdminModal') // 'Alias' some Bootstrap state events to the Vue data
-        .on('show.bs.modal', function (event) {
-            simpler.modal.show = true;
-        })
-        .on('hide.bs.modal', function (event) {
-            simpler.modal.show = false;
         });
+
+        // Sync Bootstrap modal events with Vue model
+        $('#simplerAdminModal')
+            .on('show.bs.modal', function () {
+                simpler.modal.show = true;
+            })
+            .on('hide.bs.modal', function () {
+                simpler.modal.show = false;
+                document.body.style.overflow = 'auto'; // Ensure scroll reset
+            });
+    }
 
 });
 
