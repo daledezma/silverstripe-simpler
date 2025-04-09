@@ -3,6 +3,9 @@ import {default as jQueery} from 'jquery'; // jquery as external needs to be com
 import 'bootstrap'; // make bootstrap work globally (SS probably uses some special flavour combined with react components or so)
 import Vue from 'vue'; // to hell with react...
 
+// Scoped jQuery for our use only
+const $ = jQueery;
+
 // Global 'simpler' object to hold various data like modal content etc, watched by Vue to trigger required behaviour like actually opening said modal etc.
 // “Uhm, why are you not using Vuex/Redux/some other complex way?” – Because why would I.
 window.simpler = {
@@ -28,7 +31,6 @@ window.simpler = {
     // Simply make jQuery 3 available globally as '$' (framework includes 1.7.2 as external, comment that out in webpack/mix if necessary);
     // To check version: console.log(`$/jQueery: v${jQueery.fn.jquery}`);
     window.jQueery = jQueery;
-    window.$ = jQueery;
     window.Vue = Vue; // global Vue (maybe 'expose' instead once I figure out how to do that...)
 
     // // DEV: output DOMNodesInserted & DOMNodesRemoved info
